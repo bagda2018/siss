@@ -9,20 +9,22 @@ use App\Http\Controllers\ValidacoesController;
 use App\Models\Especialidade;
 use App\Models\Utente;
 use App\Models\Consulta;
+use App\Models\PessoalClinico;
+use App\Models\User;
+use App\Models\Providers\AuthServiceProvider;
 
-class ConsultaController extends Controller
-{
+class ConsultaController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {   
+    public function index() {
         $this->authorize('permission_clinico');
-         $titulo = "Consultas Agendadas (Geral)";
-         $consultas = Consulta::consultas()->paginate(5);
-         return View('painel.consulta.listarConsultas',compact('consultas','titulo'));
+        $titulo = "Consultas Agendadas (Geral)";
+        $consultas = Consulta::consultas()->paginate(5);
+        return View('painel.consulta.listarConsultas', compact('consultas', 'titulo'));
     }
 
     /**
@@ -30,15 +32,13 @@ class ConsultaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         $this->authorize('permission_utente');
         $validacao = new ValidacoesController();
         $titulo = "Nova Consulta";
-        $especialidades = Especialidade::orderBy('name','ASC')->get();
+        $especialidades = Especialidade::orderBy('name', 'ASC')->get();
         $especialidades = $validacao->getNomes($especialidades);
-        return View('painel.consulta.new-edit',compact('especialidades','titulo'));
-
+        return View('painel.consulta.new-edit', compact('especialidades', 'titulo'));
     }
 
     /**
@@ -47,17 +47,16 @@ class ConsultaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ValidacaoFormRequest $request)
-    {
-       $this->authorize('permission_utente');
+    public function store(ValidacaoFormRequest $request) {
+        $this->authorize('permission_utente');
         $nova_consulta = new Consulta();
         $dados = $request->all();
-        $utente = Utente::where('numero',$dados['numero'])->first();
+        $utente = Utente::where('numero', $dados['numero'])->first();
         $dados['utente_id'] = $utente->id;
         $nova_consulta->create($dados);
         return redirect()->route('consulta.create');
-     //   echo $dados;
-     //var_dump($dados);
+        //   echo $dados;
+        //var_dump($dados);
     }
 
     /**
@@ -66,10 +65,9 @@ class ConsultaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         $this->authorize('permission_utente');
-        $consultas = Consulta::utenteConsultas($id,'pendente');
+        $consultas = Consulta::utenteConsultas($id, 'pendente');
         echo $consultas;
         //
     }
@@ -80,19 +78,17 @@ class ConsultaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $this->authorize('permission_clinico');
 
         $id = base64_decode(strstr(base64_decode($id), '=='));
         if (!(Consulta::Where('id', $id)->first() == '')):
-            $estados = array('pendente'=>"pendente", 'cancelada'=>"cancelada", 'realizada'=>"realizada");
+            $estados = array('pendente' => "pendente", 'cancelada' => "cancelada", 'realizada' => "realizada");
             $consulta = Consulta::Where('id', $id)->with('utente')->first();
             $titulo = strtoupper("Realizção de Consulta");
-            return View('painel.consulta.realizar', compact('consulta', 'titulo','estados'));
+            return View('painel.consulta.realizar', compact('consulta', 'titulo', 'estados'));
         endif;
-         return redirect()->back();
-        
+        return redirect()->back();
     }
 
     /**
@@ -102,11 +98,16 @@ class ConsultaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $this->authorize('permission_clinico');
-        echo $request['estado'];
-        //
+        $id = base64_decode(strstr(base64_decode($id), '=='));
+        $clinico = PessoalClinico::where('user_id', auth()->user()->id)->first();
+        $consulta = Consulta::Where('id', $id)->first();
+        $consulta['pessoal_clinico_id'] = $clinico->id;
+        $consulta->update($request->all());
+        return redirect()->route('realizar_consulta', ["pendente",
+                base64_encode(base64_encode('bagda@2018').base64_encode(auth()->user()->id))
+               ]);
     }
 
     /**
@@ -115,9 +116,9 @@ class ConsultaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $this->authorize('permission_clinico');
         //
     }
+
 }

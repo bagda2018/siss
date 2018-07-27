@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Consulta extends Model
 {
  
-        protected $fillable = ['hora','dia','especialidade_id','utente_id',
+        protected $fillable = ['hora','dia','especialidade_id','utente_id','estado','pessoal_clinico_id'
         ];
 
 
-    protected $guarded = ['estado','pessoal_clinico_id'];
+   // protected $guarded = ['estado','pessoal_clinico_id'];
 
 
 

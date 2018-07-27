@@ -4,7 +4,9 @@
 
 
 @if( isset($consulta) )
-{{ Form::model($consulta, ['route' => ['consulta.update',$consulta->id], 'class' => 'form', 'method' => 'put' ] ) }}
+ @php $codigo = base64_encode(base64_encode('bagda@2018').base64_encode($consulta->id)) @endphp
+{{ Form::model($consulta, ['route' => ['consulta.update',$codigo], 'class' => 'form', 'method' => 'put' ] ) }}
+   
 @else
 {{ Form::open(  ['route' => 'consulta.store', 'class' => 'form']  ) }} 
 {{ csrf_field()}}
@@ -45,8 +47,8 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        {{  Form::label('hora', 'Hoda da Consulta') }}
-                        {{  Form::time('hora', null, array('class'=> 'form-control','disabled'=>'')) }}
+                        {{  Form::label('hora', 'Hora da Consulta') }}
+                        {{  Form::time('hora', null, array('class'=> 'form-control')) }}
                     </div>
                 </div>
 
