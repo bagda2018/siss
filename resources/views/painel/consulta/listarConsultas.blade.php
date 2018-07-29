@@ -19,6 +19,7 @@
                     <th style="text-align: center;width: 15%;font-size: 20px;font-family:Times New Roman;color: red"">Accao</th>
                 </tr>
                 @foreach($consultas as $consulta) 
+                 @php $codigo = base64_encode(base64_encode('bagda@2018').base64_encode($consulta->id)) @endphp
                 <tr>
                     <th style="width: 25%">{{ $consulta->utente->name }}</th>
                     <th style="width: 15%">{{$consulta->utente->user->email}}</th>                    
@@ -27,14 +28,14 @@
                       <th>{{$consulta->hora }}</th>
                     <th style="width: 15px"> 
 
-                         <a href=" {{route('consulta.show',  $consulta->id) }} " class="btn btn-primary" 
+                         <a href=" {{route('consulta.show',  $codigo) }} " class="btn btn-primary" 
                             style="margin-top:5px ;float: left;margin-top:10px;margin-left:10px;height:33px"
                             data-toggle="tooltip" title="Visualizar" 
                             >
                             <span class="glyphicon glyphicon-eye-open"></span> 
                         </a>
-
-                        <a href=" {{route('consulta.edit',$consulta->id ) }} " class="btn btn-warning" data-toggle="tooltip" title="Editar"
+                         
+                        <a href=" {{route('consulta.edit',$codigo ) }} " class="btn btn-warning" data-toggle="tooltip" title="Editar"
                            style="margin-top:5px ;float: left;margin-top:10px;margin-left:10px;height:33px"
                            >
                             <span class="glyphicon glyphicon-pencil" ></span> 
@@ -42,13 +43,14 @@
 
                         <a href="#"style="float: left;margin-left:10px;margin-top:10px" >
                             <span data-toggle="tooltip" title="Eliminar" >
-                                {{ Form::open(['route' => ['consulta.destroy',$consulta->id],'method' => 'delete' ] )  }}
+                                {{ Form::open(['route' => ['consulta.destroy',$codigo],'method' => 'delete' ] )  }}
                                 {{ Form::submit('X', ['class'=> 'btn btn-danger'] )}}
                                 
                                 {{ Form::close() }}
 
                             </span>
                         </a>
+                         
                     </th>
                 </tr>
                 @endforeach

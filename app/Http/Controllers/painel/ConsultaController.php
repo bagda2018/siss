@@ -10,8 +10,6 @@ use App\Models\Especialidade;
 use App\Models\Utente;
 use App\Models\Consulta;
 use App\Models\PessoalClinico;
-use App\Models\User;
-use App\Models\Providers\AuthServiceProvider;
 
 class ConsultaController extends Controller {
 
@@ -67,9 +65,13 @@ class ConsultaController extends Controller {
      */
     public function show($id) {
         $this->authorize('permission_utente');
-        $consultas = Consulta::utenteConsultas($id, 'pendente');
-        echo $consultas;
-        //
+        $id = base64_decode(strstr(base64_decode($id), '=='));
+        if (!(Consulta::Where('id', $id)->first() == '')):
+            $consulta = Consulta::Where('id', $id)->with('utente', 'especialidade')->first();
+            $titulo = strtoupper("Dados da Consulta");
+            return View('painel.consulta.show', compact('consulta', 'titulo'));
+        endif;
+        return redirect()->back();
     }
 
     /**
@@ -79,15 +81,18 @@ class ConsultaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $this->authorize('permission_clinico');
-
+        $this->authorize('permission_admin');
         $id = base64_decode(strstr(base64_decode($id), '=='));
+
         if (!(Consulta::Where('id', $id)->first() == '')):
-            $estados = array('pendente' => "pendente", 'cancelada' => "cancelada", 'realizada' => "realizada");
+            $especialidades = Especialidade::orderBy('name', 'ASC')->get();
+            $validacao = new ValidacoesController();
+            $especialidades = $validacao->getNomes($especialidades);
             $consulta = Consulta::Where('id', $id)->with('utente')->first();
-            $titulo = strtoupper("Realizção de Consulta");
-            return View('painel.consulta.realizar', compact('consulta', 'titulo', 'estados'));
+            $titulo = strtoupper("Editar Consulta");
+            return View('painel.consulta.new-edit', compact('consulta', 'especialidades', 'titulo'));
         endif;
+
         return redirect()->back();
     }
 
@@ -106,8 +111,8 @@ class ConsultaController extends Controller {
         $consulta['pessoal_clinico_id'] = $clinico->id;
         $consulta->update($request->all());
         return redirect()->route('realizar_consulta', ["pendente",
-                base64_encode(base64_encode('bagda@2018').base64_encode(auth()->user()->id))
-               ]);
+                    base64_encode(base64_encode('bagda@2018') . base64_encode(auth()->user()->id))
+        ]);
     }
 
     /**
@@ -117,8 +122,32 @@ class ConsultaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
+
+        $this->authorize('permission_admin');
+        $id = base64_decode(strstr(base64_decode($id), '=='));
+        if (!(Consulta::Where('id', $id)->first() == '')):
+            $consulta = Consulta::Where('id', $id)->get()->first();
+            $delete = $consulta->delete();
+            if ($delete) {
+                return redirect()->route('consulta.index');
+            }
+        endif;
+        
+        return redirect()->back();
+    }
+
+    public function realizar($id) {
         $this->authorize('permission_clinico');
-        //
+        $id = base64_decode(strstr(base64_decode($id), '=='));
+
+        if (!(Consulta::Where('id', $id)->first() == '')):
+            $estados = array('Pendente' => 'Pendente', 'Cancelada' => 'Cancelada', 'Realizada' => 'Realizada',);
+            $consulta = Consulta::Where('id', $id)->with('utente')->first();
+            $titulo = strtoupper("Realizar Consulta");
+            return View('painel.consulta.realizar', compact('consulta', 'estados', 'titulo'));
+        endif;
+
+        return redirect()->back();
     }
 
 }

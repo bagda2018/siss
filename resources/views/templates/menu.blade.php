@@ -16,7 +16,7 @@
                 <!-- END RESPONSIVE MENU TOGGLER -->
                 <!-- BEGIN LOGO (you can use logo image instead of text)-->
                 <a class="navbar-brand logo-v1" href="{{ route('site.index' )}}">
-                    <img src="{{ url('assets/img/teste.png' )}}" id="logoimg" alt="">
+<!--                    <img src="{{ url('assets/img/teste.png' )}}" id="logoimg" alt="">-->
                 </a>
                 <!-- END LOGO -->
             </div>
@@ -77,7 +77,7 @@
                                     Exames
                                 </a>
                                 <ul class="dropdown-menu" style="margin-top:75px">
-                                    <li><a href="{{ route('consulta.create') }}">Novo</a></li>
+                                    <li><a href="{{ route('exame.create') }}">Novo</a></li>
                                     @can('permission_clinico')
                                     <li><a href="#" data-target="#myModal"  data-toggle="modal" data-backdrop="static"> Novo</a> </li>
                                     @endcan
@@ -120,7 +120,8 @@
                                     Consulta
                                 </a>
                                 <ul class="dropdown-menu" style="margin-top:75px">
-                                    <li><a href="{{ route('realizar_consulta', ["pendente",$codigo])}}">Realizar</a></li>
+                                    <li><a href="{{ route('buscar_consultas', ["pendente",$codigo])}}">Realizar</a></li>
+                                    <li><a href="{{ route('buscar_consultas', ["realizada",$codigo])}}">Realizada</a></li>
                                     <li><a href="{{ route('consulta.index') }}">Visualizar Todas</a></li>
                                 </ul>
                             </li>
@@ -257,7 +258,7 @@
 <!--ajax form add -->
 <script src="{{url('assets/ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js' )}}"></script>
 <script src="{{url('assets/maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/1.12.0/bootstrap.min.js' )}}"></script>
-
+    
 <script type="text/javascript">
 $(document).on('click','.create-modal',function(){
     $('#create').modal('show');
@@ -303,7 +304,5 @@ $(document).on('click','#add',function(){
   //  alert('ffffff');
     $('#name').val('');
 });
-
-
 
 </script>

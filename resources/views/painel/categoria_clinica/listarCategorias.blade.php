@@ -58,7 +58,7 @@
             </div>
 
             <div class="modal-body"style="background:#ffffff">
-                <form class="form-horizontal" role="form" method="">
+                <form class="form-horizontal" role="form">
                     <div class="col-md-10">
                         <div class="form-group">
                             <label for="name">Nome: </label>
@@ -66,7 +66,7 @@
                             <p class="error text-center alert alert-danger hidden"></p>
                         </div>
                     </div>
-               
+
                     <div class="form-actions right margin-bottom-10">
                         <button type="submit" class="btn btn-info"name="salvar" id="add">
                             <span class="glyphicon glyphicon-plus"></span>  Salvar 
@@ -77,10 +77,27 @@
                     </div> 
                 </form>
             </div>
-            
+
         </div>
     </div> 
 </div>
+
+<script src="{{url('assets/ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js' )}}"></script>
+<script src="{{url('assets/maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/1.12.0/bootstrap.min.js' )}}"></script>
+    
+<script type="text/javascript">
+$(document).on('click','.create-modal',function(){
+    $('#create').modal('show');
+    $('.form-horizontal').modal();
+    $('.modal-title').text('Add Categoria Clinica');
+    $("#create").modal({backdrop: 'static'});
+});
+
+//ajax funcao salvar
+
+
+
+</script>
 
 
 @stop

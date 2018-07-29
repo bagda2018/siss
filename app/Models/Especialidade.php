@@ -13,6 +13,10 @@ class Especialidade extends Model
         return $this->hasMany(Servico::class);
     }
     
+    public function tipo_exames(){      
+        return $this->hasMany(TipoExames::class);
+    }
+    
     
     
      public function busca($dados,$total){      

@@ -27,7 +27,7 @@
                         <th width="25px" style="width: 10px;padding: 5px">{{$consulta->hora }}</th>
                         
                         <th width="15px"> 
-                            <a href=" {{route('consulta.edit',$codigo ) }} " class="btn btn-warning" data-toggle="tooltip" title="Realizar consulta"
+                            <a href=" {{route('realizar',$codigo ) }} " class="btn btn-warning" data-toggle="tooltip" title="Realizar consulta"
                                style="margin-top:5px ;float: left;margin-top:10px;margin-left:10px;height:33px"
                                >
                                 <span class="glyphicon glyphicon-pencil" ></span> 

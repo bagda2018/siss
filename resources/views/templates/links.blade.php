@@ -26,4 +26,5 @@
    <!-- END THEME STYLES -->
 
    <link rel="shortcut icon" href="favicon.ico" />
+  
 </head>

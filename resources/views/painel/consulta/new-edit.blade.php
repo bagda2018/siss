@@ -36,7 +36,7 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        {{  Form::label('hora', 'Hoda da Consulta') }}
+                        {{  Form::label('hora', 'Hora da Consulta') }}
                         {{  Form::time('hora', null, array('class'=> 'form-control')) }}
                     </div>
                 </div>
@@ -44,7 +44,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         {{  Form::label('numero', 'Nº Utente') }}
-                        {{  Form::text('numero', null, array('placeholder'=>'Data da Consulta','class'=> 'form-control')) }}
+                        
+                        
+                        @if (isset($consulta))
+                        {{  Form::text('numero',$consulta->utente->numero ,array('class'=> 'form-control')) }}
+                        @else
+                         {{  Form::text('numero',null ,array('placeholder'=>'Nº do Utente','class'=> 'form-control')) }}
+                        @endif
                     </div>
                 </div>
             </div>

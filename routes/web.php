@@ -33,11 +33,8 @@ Route::any('exame-search', 'painel\TipoExameController@search')->name('buscarExa
 //Route::any('utente-consultas/{id}', 'painel\UtenteController@consultas')->name('utente_consultas');
 Route::any('utente_consultas/{estado}/{id}', 'painel\UtenteController@consultas')->name('utente_consultas');
 Route::any('utente-exames/{id}', 'painel\UtenteController@exames')->name('utente_exames');
-
-Route::any('realizar_consulta/{estado}/{id}', 'painel\PessoalClinicoController@realizarConsulta')->name('realizar_consulta');
-
-
-
+Route::any('buscar_consultas/{estado}/{id}', 'painel\PessoalClinicoController@buscarConsultas')->name('buscar_consultas');
+Route::any('realizar_consulta/{id}', 'painel\consultaController@realizar')->name('realizar');
 
 Route::get('/select-dinamico', 'DynamicDependentController@index');
 Route::get('/painel/utente/efectuaConsulta', 'painel\UtenteController@getMarcarConsultaUtente');

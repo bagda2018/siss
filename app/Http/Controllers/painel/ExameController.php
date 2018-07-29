@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ValidacoesController;
 use App\Models\Especialidade;
-use App\Models\TipoExame;
+use  App\Models\TipoExame;
+use  App\Models\Exame;
+use Illuminate\Support\Facades\input;
 
 
 class ExameController extends Controller
@@ -30,21 +32,31 @@ class ExameController extends Controller
     public function create()
     {
         $this->authorize('permission_admin');
-         $titulo = "Marca Exame";
+         $titulo = "Marcação de Exame";
          $especialidade = Especialidade::get();
 //        $exames =  DB::table('tipo_exames')->select('name');
           $exame = TipoExame::get();
           
           $validacao = new ValidacoesController();
         
-        $especialidades = $validacao->getNomes($especialidade);
+        $especialidades = Exame::especialidades();
          $exames = $validacao->getNomes($exame);
        
        // var_dump($exames);
        //echo $exames['name'];
+           
+      
+         
         
         return View('painel.exames.marcarExame', compact('exames','titulo','especialidades'));
-    }
+        
+//            $esp = Exame::especialidades();
+//            $validacao = new ValidacoesController();
+//            $esp = $validacao->getNomes($esp);
+//            var_dump($esp) ;
+        
+        
+     }
 
     /**
      * Store a newly created resource in storage.
@@ -54,10 +66,15 @@ class ExameController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('permission_admin');
-         $dados = $request->all();
-        $exame = new Exame();
-        $p = $exame->create($dados);
+//        $this->authorize('permission_utente');
+//         $dados = $request->all();
+//        $exame = new Exame();
+//        $p = $exame->create($dados);
+       //$es = filter_input(0,'especialidade');
+        $d = input::get();
+       //echo $es;
+        
+        var_dump(input::get());
         
          
          

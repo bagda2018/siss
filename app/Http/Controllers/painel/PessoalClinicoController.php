@@ -181,7 +181,7 @@ class PessoalClinicoController extends Controller {
     }
 
     
-    public function realizarConsulta($estado, $id) {
+    public function buscarConsultas($estado, $id) {
         $this->authorize('permission_clinico');
         //  $this->authorize('permission_clinico');
         $id = base64_decode(strstr(base64_decode($id), '=='));
