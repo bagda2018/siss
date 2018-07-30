@@ -4,7 +4,14 @@ namespace App\Http\Controllers\painel;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\ValidacoesController;
+use Illuminate\Support\Facades\DB;
+use App\Models\PessoalClinico;
+use App\Models\RCU;
+use App\Models\Consulta;
+use App\Models\Municipio;
+use App\Models\CategoriaClinica;
 class DiagnosticoController extends Controller
 {
     /**
@@ -22,7 +29,7 @@ class DiagnosticoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+   public function create()
     {
         $this->authorize('permission_clinico');
         //
@@ -36,7 +43,6 @@ class DiagnosticoController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('permission_clinico');
         //
     }
 
@@ -48,7 +54,6 @@ class DiagnosticoController extends Controller
      */
     public function show($id)
     {
-        $this->authorize('permission_utente');
         //
     }
 
@@ -60,7 +65,6 @@ class DiagnosticoController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('permission_clinico');
         //
     }
 
@@ -73,7 +77,6 @@ class DiagnosticoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->authorize('permission_clinico');
         //
     }
 
@@ -85,7 +88,6 @@ class DiagnosticoController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('permission_admin');
         //
     }
 }

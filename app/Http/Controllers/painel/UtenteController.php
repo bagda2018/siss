@@ -150,8 +150,8 @@ class UtenteController extends Controller {
     public function destroy($id) {
         $this->authorize('permission_utente');
         $id = base64_decode(strstr(base64_decode($id), '=='));
-        if (!(Utente::Where('id', $id)->first() == '')):
-            $utente = Utente::Where('id', $id)->get()->first();
+        if (!(Utente::Where('user_id', $id)->first() == '')):
+            $utente = Utente::Where('user_id', $id)->get()->first();
             $user = User::Where('id', $utente->user_id)->get()->first();
             $delete = $utente->delete();
             if ($delete) {

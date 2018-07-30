@@ -3,10 +3,10 @@
 @section('conteudo')
 
 
-@if( isset($utente) )
-    {{ Form::model( $utente, ['route' => ['utente.update',$utente->id], 'class' => 'form', 'method' => 'put' ] ) }}
+@if( isset($rcu) )
+    {{ Form::model( $rcu, ['route' => ['rcu.update',$rcu->id], 'class' => 'form', 'method' => 'put' ] ) }}
 @else
-{{ Form::open(  ['route' => 'utente.store', 'class' => 'form']  ) }} 
+{{ Form::open(  ['route' => 'rcu.store', 'class' => 'form']  ) }} 
 {{ csrf_field()}}
 @endif
 
@@ -21,49 +21,48 @@
             </div>
             <div class="panel-body">
                 
+            <div class="col-md-6">
+                    <div class="form-group">
+                        {{  Form::label('utente_id', 'Utentes') }}
+                        {{ Form::select('utente_id', $utentes, null, ['class'=> 'form-control']) }}
+                       
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        {{  Form::label('Paciente', 'Paciente') }}
-                         {{ Form::select('paciente',['Paciente 1','Paciente 2','Paciente 3'], null, ['class'=> 'form-control']) }}
+                        {{  Form::label('sexo', 'Sexo') }}
+                         {{ Form::select('sexo',['Masculino','Feminino'], null, ['class'=> 'form-control']) }}
+                    </div>
+                </div>
+                  
+                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{  Form::label('grupo_sanguino', 'Grupo Sanguinio') }}
+                         {{ Form::select('grupo_sanguino_id',$tipos, null, ['class'=> 'form-control']) }}
+                    </div>
+                </div>
+                
+                
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{  Form::label('pessoal_clinico_id', 'Medico') }}
+                        {{ Form::select('pessoal_clinico_id',$pessoal_clinico, null, ['class'=> 'form-control']) }}
                     </div>
                 </div>
 
                 <div class="col-md-6">
-                    <div class="form-group">
-                        {{  Form::label('Sexo', 'Sexo') }}
-                         {{ Form::select('sexo',['Masculino','Femenino'], null, ['class'=> 'form-control']) }}
-                    </div>
-                </div>
-                                
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {{  Form::label('grupo_sanguino', 'Grupo Sanguino') }}
-                        {{  Form::text('grupo_sanguino', null, array('placeholder'=>'Ex. L','class'=> 'form-control')) }}
-                    </div>
-                </div>                                                
-               
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {{  Form::label('diagnostico', 'Diagnostico') }}
-                         {{ Form::select('paciente',['Diagnostico 1','Diagnostico 2','Diagnostico 3'], null, ['class'=> 'form-control']) }}
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {{  Form::label('temperatura', 'Temperatura') }}
-                         {{ Form::select('paciente',['Temperatura 1','Temperatura 2','Temperatura 3'], null, ['class'=> 'form-control']) }}
-                    </div>
+                    
                 </div>
 
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        {{  Form::label('isalergico', 'is Alergico') }}
-                        {{  Form::radio('isalergico') }}
+                        {{  Form::label('alergico', 'Es Alergico') }}
+                        {{  Form::text('alergico', null, array('placeholder'=>'','class'=> 'form-control')) }}
                         
-                    </div>
+                    </div
                 </div>
             </div>
 

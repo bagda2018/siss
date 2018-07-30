@@ -49,8 +49,10 @@ class ConsultaController extends Controller {
         $this->authorize('permission_utente');
         $nova_consulta = new Consulta();
         $dados = $request->all();
-        $utente = Utente::where('numero', $dados['numero'])->first();
+        $utente = Utente::where('user_id', auth()->user()->id)->first();
         $dados['utente_id'] = $utente->id;
+        $dados['rcu_id'] =  $utente->rcu->id;
+        //echo $dados['rcu_id'];
         $nova_consulta->create($dados);
         return redirect()->route('consulta.create');
         //   echo $dados;
@@ -110,7 +112,7 @@ class ConsultaController extends Controller {
         $consulta = Consulta::Where('id', $id)->first();
         $consulta['pessoal_clinico_id'] = $clinico->id;
         $consulta->update($request->all());
-        return redirect()->route('realizar_consulta', ["pendente",
+        return redirect()->route('buscar_consultas', ["pendente",
                     base64_encode(base64_encode('bagda@2018') . base64_encode(auth()->user()->id))
         ]);
     }
